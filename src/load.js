@@ -12,7 +12,16 @@ const OAuth2 = google.auth.OAuth2;
   );
 
   const token = await fs.promises.readFile(process.env.TOKEN_FILE);
+
   oauth2Client.setCredentials(JSON.parse(token));
+  oauth2Client.refreshAccessToken((err, tokens) => {
+    if (err) {
+      console.error(`refresh token error`);
+      return;
+    }
+    console.log(`Refresh token: ${tokens}`);
+    oauth2Client.setCredentials(JSON.parse(tokens));
+  });
 
   const spreadsheetId = process.env.PUBLIC_SHEETS_ID;
   const range = "A1:E10";
