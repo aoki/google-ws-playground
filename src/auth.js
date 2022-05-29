@@ -38,6 +38,8 @@ const runCallbackServer = async (oauth2Client, tokenPath) => {
   const authorizeUrl = oauth2Client.generateAuthUrl({
     scope: "https://www.googleapis.com/auth/spreadsheets",
     access_type: "offline",
+    response_type: "code",
+    prompt: "consent",
   });
 
   console.log(`Authorize URL: ${authorizeUrl}`);

@@ -14,13 +14,15 @@ const OAuth2 = google.auth.OAuth2;
   const token = await fs.promises.readFile(process.env.TOKEN_FILE);
 
   oauth2Client.setCredentials(JSON.parse(token));
-  oauth2Client.refreshAccessToken((err, tokens) => {
+  oauth2Client.refreshAccessToken(async (err, tokens) => {
     if (err) {
       console.error(`refresh token error`);
       return;
     }
-    console.log(`Refresh token: ${tokens}`);
-    oauth2Client.setCredentials(JSON.parse(tokens));
+    console.log(`Refresh token:`);
+    console.dir(tokens);
+    oauth2Client.setCredentials(tokens);
+    await fs.promises.writeFile(process.env.TOKEN_FILE, JSON.stringify(tokens));
   });
 
   const spreadsheetId = process.env.PUBLIC_SHEETS_ID;
