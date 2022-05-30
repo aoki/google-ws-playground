@@ -8,7 +8,7 @@ const url = require("node:url");
 require("dotenv").config();
 require("isomorphic-fetch");
 
-const getNewToken = async (oauth2Client, tokenPath) => {
+export const getNewToken = async (oauth2Client, tokenPath) => {
   const authorizeUrl = oauth2Client.generateAuthUrl({
     scope: "https://www.googleapis.com/auth/spreadsheets",
     access_type: "offline",
@@ -20,7 +20,7 @@ const getNewToken = async (oauth2Client, tokenPath) => {
   await runCallbackServer(oauth2Client, tokenPath);
 };
 
-const getToken = async (oatuh2Client, tokenPath) => {
+export const getToken = async (oatuh2Client, tokenPath) => {
   const token = await fs.promises.readFile(tokenPath).catch(async () => {
     await getNewToken(oatuh2Client, tokenPath);
   });
